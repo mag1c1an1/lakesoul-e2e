@@ -1,0 +1,21 @@
+[project]
+name = "e2etest"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "mag1c1an1", email = "mag1cian@icloud.com" }
+]
+requires-python = ">=3.8"
+dependencies = [
+     "boto3>=1.37.38",
+    "click>=8.1.8",
+    "pyyaml>=6.0.2",
+]
+
+[project.scripts]
+e2etest = "e2etest:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

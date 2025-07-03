@@ -1,1 +1,0 @@
-# lakesoul-e2e

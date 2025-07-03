@@ -1,0 +1,9 @@
+piVersion: v1
+kind: Pod
+metadata:
+  name: e2e
+    namespace: lakesoul-basic-env
+    spec:
+      containers:
+        - name: e2e
+            image: sealos.hub:5000/dmetasoul/e2e:0.1.0
