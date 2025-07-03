@@ -16,5 +16,11 @@ test:
 help:
     python3 ./main.py --help⏎      
 
-image:
-    docker tag docker.1ms.run/archlinux/archlinux:base-devel-20250630.0.373922 dmetasoul/base-dev:0.1
+image-archlinux:
+    docker tag docker.1ms.run/archlinux/archlinux:base-devel-20250630.0.373922 dmetasoul/archlinux:v1
+
+image-base
+    docker build dmetasoul/dev-base:0.1 -f dev-base.Dockerfile
+
+image-all
+    docker build dmetasoul/dev-all:0.1 -f dev-all.Dockerfile
