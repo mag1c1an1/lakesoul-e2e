@@ -1,7 +1,6 @@
-rch Linux官方镜像
 FROM dmetasoul/dev-base:0.1.0 # use alpine
 # flink
-# Run wget https://dlcdn.apache.org/flink/flink-1.20.1/flink-1.20.1-bin-scala_2.12.tgz &&
+RUN curl -O https://mirrors.tuna.tsinghua.edu.cn/apache/flink/flink-1.20.1/flink-1.20.1-bin-scala_2.12.tgz
 # CMD ["/bin/sh"]
 # # 同步包数据库并更新系统（Arch Linux滚动更新特性）
 # # RUN pacman -Syu --noconfirm \
