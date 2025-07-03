@@ -1,3 +1,4 @@
-FROM docker.1ms.run/library/alpine:latest # 基于alpine官方镜像
-RUN sed -i 's#https\?://dl-cdn.alpinelinux.org/alpine#https://mirrors.tuna.tsinghua.edu.cn/alpine#g' /etc/apk/repositories
-RUN apk add  --no-cache curl git rustup cargo protoc openjdk11
+FROM docker.1ms.run/archlinux/archlinux:base-devel-20250630.0.373922
+RUN pacman -Sy && pacman -S --noconfirm cargo rustup git jdk11-openjdk cmake make maven zip unzip wget
+RUN wget https://github.com/protocolbuffers/protobuf/releases/download/v25.7/protoc-25.7-linux-x86_64.zip -O /protoc25.zip && unzip /protc25.zip
+ENV PATH=/protoc25/bin:$PATH
