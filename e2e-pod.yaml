@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: e2etet
+  namespace: lakesoul-basic-env
+  spec:
+    containers:
+      - name: e2etest
+        image: dmetasoul/e2e:0.1.0
