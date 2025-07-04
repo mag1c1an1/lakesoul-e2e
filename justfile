@@ -18,13 +18,14 @@ help:
 image-archlinux:
     docker tag docker.1ms.run/archlinux/archlinux:base-devel-20250630.0.373922 dmetasoul/archlinux:v1
 
-image-base:
-    docker build -t dmetasoul/dev-base:0.1 -f dev-base.Dockerfile  .
+image-base version:
+    docker build -t dmetasoul/dev-base:{{version}} -f dev-base.Dockerfile  .
 
-image-all:
-    docker build -t dmetasoul/dev-all:0.1 -f dev-all.Dockerfile .
+image-all version: (image-base version)
+    docker build -t dmetasoul/dev-all:{{version}} -f dev-all.Dockerfile .
 
-
+image-e2e version: (image-all version)
+    docker build -t dmetasoul/e2e:{{version}} -f lakesoul-e2e.Dockerfile .
 
 
 

@@ -6,7 +6,7 @@ readme = "README.md"
 authors = [
     { name = "mag1c1an1", email = "mag1cian@icloud.com" }
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.13"
 dependencies = [
      "boto3>=1.37.38",
     "click>=8.1.8",
@@ -15,6 +15,11 @@ dependencies = [
 
 [project.scripts]
 e2etest = "e2etest:main"
+
+[[tool.uv.index]]
+url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"
+default = true
+
 
 [build-system]
 requires = ["hatchling"]
