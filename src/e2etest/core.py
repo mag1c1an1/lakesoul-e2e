@@ -38,12 +38,12 @@ LAKESOUL_PG_PASSWORD = os.getenv("LAKESOUL_PG_PASSWORD",None)
 # s3
 END_POINT =  os.getenv("AWS_ENDPOINT",None)
 ACCESS_KEY =os.getenv("AWS_SECRET_ACCESS_KEY",None) 
-SECRET_KEY =os.getenv("AWS_SECRET_KEY_ID",None) 
+ACCESS_KEY_ID =os.getenv("AWS_ACCESS_KEY_ID",None) 
 BUCKET = os.getenv("AWS_BUCKET",None)
 S3_CLIENT= boto3.client(  
         's3',  
-        aws_access_key_id=ACCESS_KEY,  
-        aws_secret_access_key=SECRET_KEY,  
+        aws_access_key_id=ACCESS_KEY_ID,  
+        aws_secret_access_key=ACCESS_KEY,  
         endpoint_url=END_POINT
         )  
 
@@ -352,8 +352,8 @@ def check_pg():
 
 def check_minio():
     try:
-        if END_POINT is None or ACCESS_KEY is None or SECRET_KEY is None:
-            raise ValueError("some of env variables [`AWS_ENDPOINT`,`AWS_SECRET_ACCESS_KEY`,`AWS_SECRET_KEY_ID`] are not set")
+        if END_POINT is None or ACCESS_KEY is None or ACCESS_KEY_ID is None:
+            raise ValueError("some of env variables [`AWS_ENDPOINT`,`AWS_SECRET_ACCESS_KEY`,`AWS_ACCESS_KEY_ID`] are not set")
         response = requests.get(f"{END_POINT}/minio/health/live")
         if response.status_code == 200:
             logging.info("check minio service success")

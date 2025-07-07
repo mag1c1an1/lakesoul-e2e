@@ -26,13 +26,19 @@ image-archlinux:
     docker tag docker.1ms.run/archlinux/archlinux:base-devel-20250630.0.373922 dmetasoul/archlinux:v1
 
 image-base version:
-    docker build -t dmetasoul/dev-base:{{version}} -f dev-base.Dockerfile  .
+    docker build -t dmetasoul-repo/dev-base:{{version}} -f dev-base.Dockerfile  .
 
 image-all version: (image-base version)
-    docker build -t dmetasoul/dev-all:{{version}} -f dev-all.Dockerfile .
+    docker build -t dmetasoul-repo/dev-all:{{version}} -f dev-all.Dockerfile .
 
 image-e2e version: (image-all version)
-    docker build -t dmetasoul/e2e:{{version}} -f lakesoul-e2e.Dockerfile .
+    docker build -t dmetasoul-repo/e2e:{{version}} -f lakesoul-e2e.Dockerfile .
+
+tag version:
+    docker tag dmetasoul-repo/e2e:{{version}} swr.cn-southwest-2.myhuaweicloud.com/dmetasoul-repo/e2e:{{version}}
+
+push version:
+    docker push swr.cn-southwest-2.myhuaweicloud.com/dmetasoul-repo/e2e:{{version}}
 
 pods:
     kubectl -n lakesoul-basic-env get pods
@@ -44,9 +50,11 @@ apply-e2e:
     kubectl -n lakesoul-basic-env apply -f e2e-pod.yaml
 
 reset:
-    kubectl delete ns lakesoul-basic-env
+    -kubectl delete ns lakesoul-basic-env
     kubectl create ns lakesoul-basic-env
 
+logs name:
+    kubectl logs -n lakesoul-basic-env {{name}}
 
 
 

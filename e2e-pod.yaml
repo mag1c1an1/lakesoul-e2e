@@ -8,7 +8,7 @@ metadata:
 spec:
   containers:
     - name: e2etest
-      image: dmetasoul/e2e:0.1
+      image: swr.cn-southwest-2.myhuaweicloud.com/dmetasoul-repo/e2e:0.1
       env:
         - name: LAKESOUL_PG_URL
           valueFrom:
@@ -25,11 +25,11 @@ spec:
             configMapKeyRef:
               name: config
               key: LAKESOUL_PG_PASSWORD
-        - name: AWS_SECRET_ACCESS_ID
+        - name: AWS_ACCESS_KEY_ID
           valueFrom:
             configMapKeyRef:
               name: config
-              key: AWS_SECRET_ACCESS_ID
+              key: AWS_ACCESS_KEY_ID
         - name: AWS_SECRET_ACCESS_KEY
           valueFrom:
             configMapKeyRef:
