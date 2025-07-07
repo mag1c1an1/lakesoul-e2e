@@ -164,12 +164,13 @@ data:
         t_date date,
         PRIMARY KEY (file_path)
     );
-  LAKESOUL_PG_URL: "??"
-  LAKESOUL_PG_USERNAME: "??"
-  LAKESOUL_PG_PASSWORD: "??"
-  AWS_SECRET_ACCESS_KEY: "??"
-  AWS_SECRET_ACCESS_ID: "??"
-  AWS_ENDPOINT: "??"
+  LAKESOUL_PG_URL: "jdbc:postgresql://pgsvc.lakesoul-basic-env.svc.cluster.local:5432/lakesoul_test?stringtype=unspecified"
+  LAKESOUL_PG_USERNAME: "lakesoul_test"
+  LAKESOUL_PG_PASSWORD: "lakesoul_test"
+  LAKESOUL_PG_DB: "lakesoul_test"
+  AWS_SECRET_ACCESS_KEY: "minioadmin1"
+  AWS_SECRET_ACCESS_ID: "minioadmin1"
+  AWS_ENDPOINT: "http://miniosvc.lakesoul-basic-env.svc.cluster.local:9000"
   config.yaml: |+
     jobmanager.rpc.address: flink-jobmanager
     taskmanager.numberOfTaskSlots: 2
@@ -283,9 +284,15 @@ spec:
             - name: MINIO_DEFAULT_BUCKETS
               value: "lakesoul-test-bucket:public"
             - name: MINIO_ROOT_USER
-              value: "minioadmin1"
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: AWS_SECRET_ACCESS_ID
             - name: MINIO_ROOT_PASSWORD
-              value: "minioadmin1"
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: AWS_SECRET_ACCESS_KEY
 ---
 # pg-service
 apiVersion: v1
@@ -331,11 +338,20 @@ spec:
               mountPath: /docker-entrypoint-initdb.d
           env:
             - name: POSTGRES_USER
-              value: "lakesoul_test" # 数据库用户名
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: LAKESOUL_PG_USER
             - name: POSTGRES_PASSWORD
-              value: "lakesoul_test" # 数据库密码（生产环境建议使用Secret）
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: LAKESOUL_PG_PASSWORD
             - name: POSTGRES_DB
-              value: "lakesoul_test" # 默认数据库名
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: LAKESOUL_PG_DB
       volumes:
         - name: metadata-init
           configMap:
@@ -456,4 +472,3 @@ spec:
                 path: config.yaml
               - key: log4j-console.properties
                 path: log4j-console.properties
-
