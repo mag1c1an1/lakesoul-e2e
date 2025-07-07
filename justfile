@@ -27,7 +27,11 @@ image-all version: (image-base version)
 image-e2e version: (image-all version)
     docker build -t dmetasoul/e2e:{{version}} -f lakesoul-e2e.Dockerfile .
 
+pods:
+    kubectl -n lakesoul-basic-env get pods
 
+apply-basic:
+    kubectl -n lakesoul-basic-env apply -f lakesoul_basic.yaml
 
 
 
