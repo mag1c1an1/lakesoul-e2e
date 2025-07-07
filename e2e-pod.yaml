@@ -6,4 +6,4 @@ metadata:
   spec:
     containers:
       - name: e2etest
-        image: dmetasoul/e2e:0.1.0
+        image: dmetasoul/e2e:0.1
