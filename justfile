@@ -1,10 +1,20 @@
-env := "AWS_SECRET_ACCESS_KEY=minioadmin1 AWS_SECRET_KEY_ID=minioadmin1 AWS_ENDPOINT=http://localhost:9000 AWS_BUCKET=lakesoul-test-bucket LAKESOUL_VERSION=3.0.0-SNAPSHOT"
+env := "AWS_SECRET_ACCESS_KEY=minioadmin1 \
+AWS_SECRET_KEY_ID=minioadmin1  \
+AWS_ENDPOINT=http://localhost:9000  \
+AWS_BUCKET=lakesoul-test-bucket  \
+LAKESOUL_VERSION=3.0.0-SNAPSHOT  \
+LAKESOUL_PG_URL=jdbc:postgresql://127.0.0.1:5432/lakesoul_test?stringtype=unspecified \
+LAKESOUL_PG_USER=lakesoul_test \
+LAKESOUL_PG_PASSWORD=lakesoul_test"
 
 pytest:
-     {{env}} ../../.venv/bin/python3.13 -m unittest ./test.py
+     {{env}} uv run pytest
 
-run:
-    uv run main.py
+check: 
+    {{env}} uv run e2etest check
+
+build:
+    uv build
 
 debug:
     python3 ./main.py --dir /Users/mag1cian/dev/internship run
