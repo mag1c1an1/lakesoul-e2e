@@ -56,5 +56,6 @@ reset:
 logs name:
     kubectl logs -n lakesoul-basic-env {{name}}
 
-
+# dangerous
+lazy version: build reset (image-e2e version) (tag version) (push version) (apply-basic) (apply-e2e)
 

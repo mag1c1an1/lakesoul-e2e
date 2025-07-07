@@ -32,7 +32,7 @@ LAKESOUL_FLINK_PATH = Path(os.path.expanduser( f"{MVN_LOCAL}/lakesoul-flink/{FLI
 LAKESOUL_SPARK_PATH = Path(os.path.expanduser( f"{MVN_LOCAL}/lakesoul-spark/{SPARK_VERSION}-{VERSION}/lakesoul-spark-{SPARK_VERSION}-{VERSION}.jar"))
 # lakesoul-pg
 LAKESOUL_PG_URL = os.getenv("LAKESOUL_PG_URL",None)
-LAKESOUL_PG_USER = os.getenv("LAKESOUL_PG_USER",None)
+LAKESOUL_PG_USERNAME = os.getenv("LAKESOUL_PG_USERNAME",None)
 LAKESOUL_PG_PASSWORD = os.getenv("LAKESOUL_PG_PASSWORD",None)
 
 # s3
@@ -340,10 +340,10 @@ def run(ctx):
 
 def check_pg():
     try:
-        if LAKESOUL_PG_URL is None or LAKESOUL_PG_USER is None or LAKESOUL_PG_PASSWORD is None:
+        if LAKESOUL_PG_URL is None or LAKESOUL_PG_USERNAME is None or LAKESOUL_PG_PASSWORD is None:
             raise ValueError("some of env variables [`LAKESOUL_PG_URL`,`LAKESOUL_PG_USER`,`LAKESOUL_PG_PASSWORD`] are not set")
         pg_url = LAKESOUL_PG_URL[5:LAKESOUL_PG_URL.find('?')]
-        conn = psycopg.connect(conninfo=pg_url,user = LAKESOUL_PG_USER, password = LAKESOUL_PG_PASSWORD)
+        conn = psycopg.connect(conninfo=pg_url,user = LAKESOUL_PG_USERNAME, password = LAKESOUL_PG_PASSWORD)
         conn.close()
         logging.info("check pg success")
     except Exception as e:
