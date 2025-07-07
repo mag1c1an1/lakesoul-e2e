@@ -5,7 +5,8 @@ spark:
   deploy: "local"
 
 flink:
-  deploy: "local"
+  deploy: "k8s"
+  jobmanager: "flink-jobmanager.lakesoul-basic-env.svc.cluster.local:8081"
 
 init:
   type: "flink" 
