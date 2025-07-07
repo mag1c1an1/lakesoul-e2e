@@ -19,9 +19,6 @@ build:
 debug:
     python3 ./main.py --dir /Users/mag1cian/dev/internship run
 
-test:
-    {{env}} uv run main.py --fresh --repo https://github.com/mag1c1an1/LakeSoul.git --branch tmp_name run  
-
 help:
     python3 ./main.py --help
 
@@ -42,6 +39,13 @@ pods:
 
 apply-basic:
     kubectl -n lakesoul-basic-env apply -f lakesoul_basic.yaml
+
+apply-e2e:
+    kubectl -n lakesoul-basic-env apply -f e2e-pod.yaml
+
+reset:
+    kubectl delete ns lakesoul-basic-env
+    kubectl create ns lakesoul-basic-env
 
 
 

@@ -1,9 +1,42 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: e2etet
+  name: e2etest
+  labels:
+    app: e2etest
   namespace: lakesoul-basic-env
-  spec:
-    containers:
-      - name: e2etest
-        image: dmetasoul/e2e:0.1
+spec:
+  containers:
+    - name: e2etest
+      image: dmetasoul/e2e:0.1
+      env:
+        - name: LAKESOUL_PG_URL
+          valueFrom:
+            configMapKeyRef:
+              name: config
+              key: LAKESOUL_PG_URL
+        - name: LAKESOUL_PG_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: config
+              key: LAKESOUL_PG_USERNAME
+        - name: LAKESOUL_PG_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: config
+              key: LAKESOUL_PG_PASSWORD
+        - name: AWS_SECRET_ACCESS_ID
+          valueFrom:
+            configMapKeyRef:
+              name: config
+              key: AWS_SECRET_ACCESS_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: config
+              key: AWS_SECRET_ACCESS_KEY
+        - name: AWS_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              name: config
+              key: AWS_ENDPOINT
