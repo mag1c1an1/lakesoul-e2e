@@ -341,7 +341,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: config
-                  key: LAKESOUL_PG_USER
+                  key: LAKESOUL_PG_USERNAME
             - name: POSTGRES_PASSWORD
               valueFrom:
                 configMapKeyRef:
