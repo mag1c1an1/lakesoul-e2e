@@ -1,5 +1,5 @@
 env := "AWS_SECRET_ACCESS_KEY=minioadmin1 \
-AWS_SECRET_KEY_ID=minioadmin1  \
+AWS_ACCESS_KEY_ID=minioadmin1  \
 AWS_ENDPOINT=http://localhost:9000  \
 AWS_BUCKET=lakesoul-test-bucket  \
 LAKESOUL_VERSION=3.0.0-SNAPSHOT  \
