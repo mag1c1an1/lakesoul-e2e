@@ -184,7 +184,7 @@ def pre_run(ctx):
         if ctx.obj["dir"].exists():
             shutil.rmtree(ctx.obj["dir"])  # 如果临时目录已存在，先删除
         os.makedirs(ctx.obj["dir"])
-        # clone_repo(ctx.obj["repo"], ctx.obj["branch"], ctx.obj["dir"])
+        clone_repo(ctx.obj["repo"], ctx.obj["branch"], ctx.obj["dir"])
 
     s3_delete_dir(E2E_DATA_DIR)
 
@@ -192,7 +192,7 @@ def pre_run(ctx):
         ctx.obj["config"] = yaml.safe_load(f)
 
     # build lakesoul
-    # build_install(ctx.obj["dir"] / "LakeSoul")
+    build_install(ctx.obj["dir"] / "LakeSoul")
     s3_upload_jars()
 
 

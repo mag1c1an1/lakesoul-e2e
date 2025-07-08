@@ -4,8 +4,21 @@ AWS_ENDPOINT=http://localhost:9000  \
 AWS_BUCKET=lakesoul-test-bucket  \
 LAKESOUL_VERSION=3.0.0-SNAPSHOT  \
 LAKESOUL_PG_URL=jdbc:postgresql://127.0.0.1:5432/lakesoul_test?stringtype=unspecified \
-LAKESOUL_PG_USER=lakesoul_test \
+LAKESOUL_PG_USERNAME=lakesoul_test \
 LAKESOUL_PG_PASSWORD=lakesoul_test"
+
+k8s-env := "AWS_SECRET_ACCESS_KEY=minioadmin1 \
+AWS_ACCESS_KEY_ID=minioadmin1  \
+AWS_ENDPOINT=http://miniosvc.lakesoul-basic-env.svc.cluster.local:9000  \
+AWS_BUCKET=lakesoul-test-bucket  \
+LAKESOUL_VERSION=3.0.0-SNAPSHOT  \
+LAKESOUL_PG_URL=jdbc:postgresql://pgsvc.lakesoul-basic-env.svc.cluster.local:5432/lakesoul_test?stringtype=unspecified \
+LAKESOUL_PG_USERNAME=lakesoul_test \
+LAKESOUL_PG_PASSWORD=lakesoul_test"
+
+env:
+    {{k8s-env}}
+
 
 pytest:
      {{env}} uv run pytest
@@ -16,11 +29,8 @@ check:
 build:
     uv build
 
-debug:
-    python3 ./main.py --dir /Users/mag1cian/dev/internship run
-
-help:
-    python3 ./main.py --help
+run:
+    {{env}} e2etest --repo https://github.com/mag1c1an1/Lakesoul.git --branch tmp_name run
 
 image-archlinux:
     docker tag docker.1ms.run/archlinux/archlinux:base-devel-20250630.0.373922 dmetasoul/archlinux:v1
@@ -55,6 +65,9 @@ reset:
 
 logs name:
     kubectl logs -n lakesoul-basic-env {{name}}
+
+del name:
+    kubectl delete pod {{name}} -n lakesoul-basic-env
 
 # dangerous
 lazy version: build reset (image-e2e version) (tag version) (push version) (apply-basic) (apply-e2e)

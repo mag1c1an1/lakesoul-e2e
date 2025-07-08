@@ -8,7 +8,10 @@ metadata:
 spec:
   containers:
     - name: e2etest
-      image: swr.cn-southwest-2.myhuaweicloud.com/dmetasoul-repo/e2e:0.1.3
+      image: swr.cn-southwest-2.myhuaweicloud.com/dmetasoul-repo/e2e:0.1.6
+      command: ["/bin/bash"] 
+      # command: ["e2etest"] 
+      # args: ["--fresh", "--repo","https://github.com/mag1c1an1/LakeSoul.git","--branch","tmp_name", "run"]
       env:
         - name: LAKESOUL_PG_URL
           valueFrom:
@@ -40,4 +43,9 @@ spec:
             configMapKeyRef:
               name: config
               key: AWS_ENDPOINT
+        - name: AWS_BUCKET
+          valueFrom:
+            configMapKeyRef:
+              name: config
+              key: AWS_BUCKET
   restartPolicy: Never  # 任务完成后不需要重启

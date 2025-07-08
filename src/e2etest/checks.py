@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: LakeSoul Contributors
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """
 check e2e test environment settings mainly for k8s . Ex: postgresql, minio and compute engines.
 """
@@ -24,7 +28,7 @@ def check_pg():
             or LAKESOUL_PG_PASSWORD is None
         ):
             raise ValueError(
-                "some of env variables [`LAKESOUL_PG_URL`,`LAKESOUL_PG_USER`,`LAKESOUL_PG_PASSWORD`] are not set"
+                "some of env variables [`LAKESOUL_PG_URL`,`LAKESOUL_PG_USERNAME`,`LAKESOUL_PG_PASSWORD`] are not set"
             )
         pg_url = LAKESOUL_PG_URL[5 : LAKESOUL_PG_URL.find("?")]
         conn = psycopg.connect(

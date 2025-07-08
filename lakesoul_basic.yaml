@@ -171,6 +171,7 @@ data:
   AWS_SECRET_ACCESS_KEY: "minioadmin1"
   AWS_ACCESS_KEY_ID: "minioadmin1"
   AWS_ENDPOINT: "http://miniosvc.lakesoul-basic-env.svc.cluster.local:9000"
+  AWS_BUCKET: "lakesoul-test-bucket"
   config.yaml: |+
     jobmanager.rpc.address: flink-jobmanager
     taskmanager.numberOfTaskSlots: 2
@@ -271,13 +272,15 @@ spec:
     spec:
       containers:
         - name: minio
-          image: docker.1ms.run/minio/minio
+          image: swr.cn-southwest-2.myhuaweicloud.com/dmetasoul-repo/bitnami/minio:2025.4.22-debian-12-r1
           ports:
             - containerPort: 9000
             - containerPort: 9001
-          args:
-            - server
-            - /data
+          # command: ["minio"]
+          # args: ["server","/data"]
+          volumeMounts:
+            - mountPath: /data
+              name: data
           env:
             - name: MINIO_DEFAULT_BUCKETS
               value: "lakesoul-test-bucket:public"
@@ -291,6 +294,9 @@ spec:
                 configMapKeyRef:
                   name: config
                   key: AWS_SECRET_ACCESS_KEY
+      volumes:
+        - name: data
+          emptyDir: {}
 ---
 # pg-service
 apiVersion: v1
