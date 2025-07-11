@@ -19,7 +19,6 @@ LAKESOUL_PG_PASSWORD=lakesoul_test"
 env:
     {{k8s-env}}
 
-
 pytest:
      {{env}} uv run pytest
 
@@ -53,22 +52,10 @@ push version:
 pods:
     kubectl -n lakesoul-basic-env get pods
 
-apply-basic:
-    kubectl -n lakesoul-basic-env apply -f lakesoul_basic.yaml
-
-apply-e2e:
-    kubectl -n lakesoul-basic-env apply -f e2e-pod.yaml
-
 reset:
     -kubectl delete ns lakesoul-basic-env
     kubectl create ns lakesoul-basic-env
 
-logs name:
-    kubectl logs -n lakesoul-basic-env {{name}}
-
-del name:
-    kubectl delete pod {{name}} -n lakesoul-basic-env
-
-# dangerous
-lazy version: build reset (image-e2e version) (tag version) (push version) (apply-basic) (apply-e2e)
+e2e-run version:
+    docker run -v $HOME/.kube:/root/.kube -v $FLINK_HOME/conf/config.yaml:/opt/flink-1.20.1/conf/config.yaml swr.cn-southwest-2.myhuaweicloud.com/dmetasoul-repo/e2e:{{version}} /bin/bash
 

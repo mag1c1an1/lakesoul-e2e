@@ -3,7 +3,8 @@ RUN echo "Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/\$repo/os/\$ar
 RUN pacman -Sy && pacman -S --noconfirm cargo rustup git jdk11-openjdk cmake make maven zip unzip wget python3 python-pip python-pipx kubectl
 ENV PATH=/root/.local/bin:$PATH
 # protoc
-RUN wget https://github.com/protocolbuffers/protobuf/releases/download/v25.7/protoc-25.7-linux-x86_64.zip -O /protoc25.zip && unzip /protoc25.zip && rm -rf protoc25.zip
+COPY protoc-25.7-linux-x86_64.zip /protoc25.zip
+RUN unzip /protoc25.zip && rm -rf protoc25.zip
 ENV PATH=/protoc25/bin:$PATH
 RUN mv /usr/share/java/maven/conf/settings.xml /usr/share/java/maven/conf/settings.xml.bak
 COPY settings.xml /usr/share/java/maven/conf/settings.xml
