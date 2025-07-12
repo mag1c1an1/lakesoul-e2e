@@ -54,6 +54,7 @@ class FlinkSubTask(SubTask):
         if self.depoly == "k8s":
             manager_args = ["-m", self.jobmanager]
             args[2:2] = manager_args
+            # need run k8s and check its status
         subprocess.run(args, check=True)
 
     def __repr__(self):
