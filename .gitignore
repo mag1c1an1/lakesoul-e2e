@@ -3,3 +3,5 @@
 **/.venv/
 **.code-workspace
 **/.pytest_cache/
+**/.env
+**/opt/

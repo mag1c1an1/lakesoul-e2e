@@ -1,3 +1,6 @@
+set dotenv-load
+
+
 env := "AWS_SECRET_ACCESS_KEY=minioadmin1 \
 AWS_ACCESS_KEY_ID=minioadmin1  \
 AWS_ENDPOINT=http://localhost:9000  \
@@ -50,3 +53,37 @@ reset:
 e2e-run version:
     docker run -it --rm -v $HOME/.kube:/root/.kube -v $FLINK_HOME/conf/config.yaml:/opt/flink-1.20.1/conf/config.yaml dmetasoul-repo/e2e:{{version}} /bin/bash
 
+upload:
+    mcli cp ~/.m2/repository/com/dmetasoul/flink-e2e/3.0.0-SNAPSHOT/flink-e2e-3.0.0-SNAPSHOT.jar hwoss/dmetasoul-bucket/jiax/target/flink-e2e-3.0.0-SNAPSHOT.jar
+    mcli cp ~/.m2/repository/com/dmetasoul/lakesoul-flink/1.20-3.0.0-SNAPSHOT/lakesoul-flink-1.20-3.0.0-SNAPSHOT.jar hwoss/dmetasoul-bucket/jiax/target/lakesoul-flink-1.20-3.0.0-SNAPSHOT.jar
+    mcli cp ~/.m2/repository/com/dmetasoul/lakesoul-spark/3.3-3.0.0-SNAPSHOT/lakesoul-spark-3.3-3.0.0-SNAPSHOT.jar hwoss/dmetasoul-bucket/jiax/target/lakesoul-spark-3.3-3.0.0-SNAPSHOT.jar
+
+rm:
+    mcli rm  hwoss/dmetasoul-bucket/jiax/target/flink-e2e-3.0.0-SNAPSHOT.jar
+    mcli rm  hwoss/dmetasoul-bucket/jiax/target/lakesoul-flink-1.20-3.0.0-SNAPSHOT.jar
+    mcli rm  hwoss/dmetasoul-bucket/jiax/target/lakesoul-spark-3.3-3.0.0-SNAPSHOT.jar
+
+debug:
+    flink run-application --target kubernetes-application \
+    --class com.dmetasoul.e2e.FlinkDataSink \
+    -Dcontainerized.master.env.LAKESOUL_PG_DRIVER=com.lakesoul.shaded.org.postgresql.Driver \
+    -Dcontainerized.master.env.LAKESOUL_PG_USERNAME=lakesoul_e2e \
+    -Dcontainerized.master.env.LAKESOUL_PG_PASSWORD=lakesoul_e2e \
+    -Dcontainerized.master.env.LAKESOUL_PG_URL=jdbc:postgresql://pgsvc.default.svc.cluster.local:5432/lakesoul_e2e?stringtype=unspecified \
+    -Dcontainerized.taskmanager.env.LAKESOUL_PG_DRIVER=com.lakesoul.shaded.org.postgresql.Driver \
+    -Dcontainerized.taskmanager.env.LAKESOUL_PG_USERNAME=lakesoul_e2e \
+    -Dcontainerized.taskmanager.env.LAKESOUL_PG_PASSWORD=lakesoul_e2e \
+    -Dcontainerized.taskmanager.env.LAKESOUL_PG_URL=jdbc:postgresql://pgsvc.default.svc.cluster.local:5432/lakesoul_e2e?stringtype=unspecified \
+    -Dkubernetes.artifacts.local-upload-enabled=true \
+    -Dkubernetes.artifacts.local-upload-overwrite=true \
+    -Dkubernetes.artifacts.local-upload-target=s3://dmetasoul-bucket/jiax/target/ \
+    -Dkubernetes.cluster-id=lakesoul-e2e-flink \
+    -Dkubernetes.container.image.ref=swr.cn-southwest-2.myhuaweicloud.com/dmetasoul-repo/flink-hadoop-3.3.6:1.0 \
+    -Duser.artifacts.artifact-list=s3://dmetasoul-bucket/jiax/target/lakesoul-flink-1.20-3.0.0-SNAPSHOT.jar \
+    s3://dmetasoul-bucket/jiax/target/flink-e2e-3.0.0-SNAPSHOT.jar
+
+del:
+    kubectl delete deployment lakesoul-e2e-flink
+
+# build_with_hadoop version:
+# pass
