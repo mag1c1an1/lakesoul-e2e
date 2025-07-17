@@ -23,3 +23,28 @@ flink run-application --target kubernetes-application \
 -Dcontainerized.taskmanager.env.ENABLE_BUILT_IN_PLUGINS=flink-s3-fs-hadoop-1.20.1.jar \
 -Duser.artifacts.artifact-list=s3://dmetasoul-bucket/jiax/target/lakesoul-flink.jar \
 s3://dmetasoul-bucket/jiax/target/first-love-0.1.jar
+
+
+## Spark
+用镜像的时候指定 k8s 环境变量
+
+ spark-submit \
+    --master k8s://https://<k8s-apiserver-host>:<k8s-apiserver-port> \
+    --jars
+    https://.....
+    --deploy-mode cluster \
+    --name spark-pi \
+    --class org.apache.spark.examples.SparkPi \
+    --conf spark.executor.instances=5 \
+    --conf spark.kubernetes.container.image=<spark-image> \
+    --packages org.apache.hadoop:hadoop-aws:3.4.1 # maven coordinate
+    --conf spark.kubernetes.file.upload.path=s3a://<s3-bucket>/path
+    --conf spark.hadoop.fs.s3a.access.key=...
+    --conf spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem
+    --conf spark.hadoop.fs.s3a.fast.upload=true
+    --conf spark.hadoop.fs.s3a.secret.key=....
+    --conf spark.driver.extraJavaOptions=-Divy.cache.dir=/tmp -Divy.home=/tmp
+    --conf spark.kubernetes.driver.podTemplateFile=s3a://bucket/driver.yml
+    --conf spark.kubernetes.executor.podTemplateFile=s3a://bucket/executor.yml
+    file:///full/path/to/app.jar
+    local:///path/to/examples.jar
